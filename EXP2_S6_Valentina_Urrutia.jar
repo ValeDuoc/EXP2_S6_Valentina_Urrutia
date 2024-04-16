@@ -1,0 +1,135 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package exp2_s6_valentina_urrutia;
+
+/**
+ *
+ * @author vurru
+ */
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class EXP2_S6_Valentina_Urrutia {
+
+    private static String nombreTeatro = "Teatro Moro";
+    private static int capacidadSala = 500;
+    private static HashMap<String, Double> preciosUbicaciones = new HashMap<>();
+
+    private static ArrayList<Entrada> entradasVendidas = new ArrayList<>();
+    private static int numeroEntrada = 1;
+
+   public static void main(String[] args) {
+        // Inicialización de los precios de las ubicaciones
+        preciosUbicaciones.put("VIP", 30000.0);
+        preciosUbicaciones.put("Platea", 20000.0);
+        preciosUbicaciones.put("General", 10000.0);
+            
+        Scanner scanner = new Scanner(System.in);
+
+        boolean salir = false;
+        while (!salir) {
+            System.out.println("\nMenú Principal:");
+            System.out.println("1. Comprar entradas");
+            System.out.println("2. Modificar venta existente");
+            System.out.println("3. Eliminar venta");
+            System.out.println("4. Imprimir boleta");
+            System.out.println("5. Salir");
+
+            int opcion = scanner.nextInt();
+            switch (opcion) {
+                case 1:
+                    comprarEntradas(scanner);
+                    break;
+                case 2:
+                    modificarVentaExistente(scanner);
+                    break;
+                case 3:
+                    eliminarVenta(scanner);
+                    break;
+                case 4:
+                    imprimirBoleta(scanner);
+                    break;
+                case 5:
+                    salir = true;
+                    System.out.println("Gracias por comprar en el Teatro Moro. ¡Nos vemos!");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static void comprarEntradas(Scanner scanner) {
+        System.out.println("\nComprar entradas:");
+        // Implementar la lógica para la compra de entradas
+
+        System.out.println("Ubicación de la entrada (VIP, Platea, General): ");
+        String ubicacion = scanner.next();
+
+        if (!validarDisponibilidadAsiento(ubicacion)) {
+            System.out.println("Lo siento, no hay asientos disponibles en esta ubicación.");
+            return;
+        }
+
+        double precioBase = preciosUbicaciones.get(ubicacion);
+        double precioFinal = precioBase;
+
+        System.out.println("¿Es estudiante? (Sí/No): ");
+        String respuestaEstudiante = scanner.next();
+
+        if (respuestaEstudiante.equalsIgnoreCase("Sí")) {
+            precioFinal -= precioBase * 0.10;
+        }
+
+        System.out.println("¿Es de la tercera edad? (Sí/No): ");
+        String respuestaTerceraEdad = scanner.next();
+
+        if (respuestaTerceraEdad.equalsIgnoreCase("Sí")) {
+            precioFinal -= precioBase * 0.15;
+        }
+
+        System.out.println("Precio final de la entrada: $" + precioFinal);
+
+        // Almacenar la entrada vendida
+        entradasVendidas.add(new Entrada(numeroEntrada++, ubicacion, precioFinal));
+    }
+
+    private static boolean validarDisponibilidadAsiento(String ubicacion) {       
+        return true; // Supongamos que siempre hay disponibilidad
+    }
+
+    private static void modificarVentaExistente(Scanner scanner) {
+        System.out.println("\nModificar venta existente:");   
+    }
+
+    private static void eliminarVenta(Scanner scanner) {
+        System.out.println("\nEliminar venta:");
+    }
+
+    private static void imprimirBoleta(Scanner scanner) {
+        System.out.println("\nImprimir boleta:");   
+    }
+
+    static class Entrada {
+        private int numero;
+        private String ubicacion;
+        private double precioFinal;
+
+        public Entrada(int numero, String ubicacion, double precioFinal) {
+            this.numero = numero;
+            this.ubicacion = ubicacion;
+            this.precioFinal = precioFinal;
+        }
+
+        @Override
+        public String toString() {
+            return "Entrada " + numero + ": " + ubicacion + " - Precio: $" + precioFinal;
+        }
+    }
+}
+
